@@ -3,6 +3,8 @@ const http=require('http');
 const morgan =require('morgan');
 const bodyparser=require('body-parser');
 
+const dishRouter=require('./routes/dishRouter');
+
 const hostname='localhost';
 const port=3000;
 
@@ -10,33 +12,33 @@ const app=express();
 
 app.use(morgan('dev'));
 
-app.use(bodyparser.json());
+app.use('/dishes',dishRouter);
 
-app.all('/dishes',(req,res,next)=>
-{
-    res.statusCode=200;
-    res.setHeader('Content-Type','text/plain');
-    next();
-});
+// app.all('/dishes',(req,res,next)=>
+// {
+//     res.statusCode=200;
+//     res.setHeader('Content-Type','text/plain');
+//     next();
+// });
 
-app.get('/dishes',(req,res,next)=>
-{
-    res.end('Will send all the dishes to you');
-});
+// app.get('/dishes',(req,res,next)=>
+// {
+//     res.end('Will send all the dishes to you');
+// });
 
-app.post('/dishes',(req,res,next)=>
-{
-    res.end('Adding the dish : '+req.body.name+' Details : '+req.body.description);
-});
+// app.post('/dishes',(req,res,next)=>
+// {
+//     res.end('Adding the dish : '+req.body.name+' Details : '+req.body.description);
+// });
 
-app.put('/dishes',(req,res,next)=>{
-res.statusCode=403;
-res.end('Put operation not supported');
-});
+// app.put('/dishes',(req,res,next)=>{
+// res.statusCode=403;
+// res.end('Put operation not supported');
+// });
 
-app.delete('/dishes',(req,res,next)=>{
-res.end('Deleting all dishes');
-});
+// app.delete('/dishes',(req,res,next)=>{
+// res.end('Deleting all dishes');
+// });
 
 app.get('/dishes/:dishId',(req,res,next)=>
 {
@@ -75,4 +77,4 @@ const server=http.createServer(app);
 server.listen(port,hostname,()=>
 {
     console.log(`Server running at http://${hostname}:${port}`);
-})
+});
