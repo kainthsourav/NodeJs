@@ -36,7 +36,7 @@ res.end('Deleting all dishes');
 
 
 //for /dish/anything
-dishRouter.route('/:dishid')
+dishRouter.route('/:dishId')
 .get((req,res,next)=>
 {
     res.end('Will send the dishe detials : '+req.params.dishId+'to you!');
