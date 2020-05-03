@@ -4,7 +4,8 @@ const morgan =require('morgan');
 const bodyparser=require('body-parser');
 
 const dishRouter=require('./routes/dishRouter');
-const dishRouter_extra=require('./routes/dishRouter');
+const leaderRouter=require('./routes/leaderRouter');
+const promoRouter=require('./routes/promoRouter');
 
 const hostname='localhost';
 const port=3000;
@@ -14,7 +15,8 @@ const app=express();
 app.use(morgan('dev'));
 
 app.use('/dishes',dishRouter);
-
+app.use('/leaders',leaderRouter);
+app.use('/promo',promoRouter);
 
 // app.all('/dishes',(req,res,next)=>
 // {
