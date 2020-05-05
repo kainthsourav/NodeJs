@@ -9,21 +9,56 @@ connect.then((db)=>
     console.log("Connected to Server");
 
     Dishes.create({
-        name:'Uthappizza',
-        description:'Test'
+        name:'Uthapizza',
+        description:'Test - 2'
     })
-    .then((dish)=>{
+    .then((dish)=>
+    {
         console.log(dish);
-        return Dishes.find({}).exec();
+        return Dishes.findByIdAndUpdate(dish._id,
+            {$set : {description:'Test -2 Updated'}
+        },{
+            new:true
+    }).exec();
     })
-    .then((dishes)=>{
-        console.log(dishes);
+    .then((dish)=>
+    {
+        console.log(dish);
+        dish.comments.push({
+            rating:5,
+            comment:'This is comment',
+            author:'Kainth sourav'
+        });
+        return dish.save();
+    })
+    .then((dish)=>
+    {
+        console.log(dish);
         return Dishes.remove({});
     })
-    .then(()=>{
-        return mongoose.connection.close();
+    .then(()=>
+    {
+        mongoose.connection.close();
     })
     .catch((err)=>console.log(err));
+});
+
+    // Dishes.create({
+    //     name:'Uthappizza',
+    //     description:'Test-2'
+    // })
+    // .then((dish)=>{
+    //     console.log(dish);
+    //     return Dishes.find({}).exec();
+    // })
+    // .then((dishes)=>{
+    //     console.log(dishes);
+    //     return Dishes.remove({});
+    // })
+    // .then(()=>{
+    //     return mongoose.connection.close();
+    // })
+    // .catch((err)=>console.log(err));
 
     // var newDish=Dishes({
     //     name:'Uthappizza',
@@ -45,5 +80,3 @@ connect.then((db)=>
     //     return mongoose.connection.close();
     // })
     // .catch((err)=>console.log(err));
-
-});
