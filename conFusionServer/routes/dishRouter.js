@@ -46,7 +46,7 @@ res.end('Put operation not supported');
    {
     res.statusCode=200;
     res.setHeader('Content-Type','application/json');
-    res.json(dishes);
+    res.json(resp);
 },(err)=>next(err))
 .catch((err)=>next(err));
 });
@@ -81,7 +81,7 @@ dishRouter.route('/:dishId')
    {
     res.statusCode=200;
         res.setHeader('Content-Type','application/json');
-        res.json(dishes);
+        res.json(dish);
     },(err)=>next(err))
     .catch((err)=>next(err));
 })
@@ -91,7 +91,7 @@ dishRouter.route('/:dishId')
    Dishes.findByIdAndRemove(req.params.dishId).then((resp)=>
    {res.statusCode=200;
     res.setHeader('Content-Type','application/json');
-    res.json(dishes);
+    res.json(resp);
 },(err)=>next(err))
 .catch((err)=>next(err));
 });
