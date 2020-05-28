@@ -22,6 +22,8 @@ var usersRouter = require('./routes/users');
 var dishRouter=require('./routes/dishRouter');
 var leaderRouter=require('./routes/leaderRouter');
 var promoRouter=require('./routes/promoRouter');
+var session=require('express-session');
+var FileStore=require('session-file-store')(session);
 
 var app = express();
 
@@ -32,13 +34,21 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser('12345-67890-09876-54321'));
+//app.use(cookieParser('12345-67890-09876-54321'));
+
+app.use(session({
+name:'session-id',
+secret:'12345-67890-09876-54321',
+saveUninitialized:false,
+resave:false,
+store:new FileStore()
+}));
 
 function auth(req,res,next)
 {
-  if(!req.signedCookies.user)
+  console.log(req.session);
+  if(!req.session.user)
   {
-    console.log(req.signedCookies);
     var authHeader=req.headers.authorization;
     if(!authHeader)
     {
@@ -53,8 +63,9 @@ function auth(req,res,next)
     var pass=auth[1];
     if(user=='admin' && pass =='password')
     {
-      res.cookie('user','admin',{expires: new Date(Date.now()+90000),signed : true});
-      next();
+     // res.cookie('user','admin',{expires: new Date(Date.now()+90000),signed : true});
+      req.session.user='admin';
+     next();
     }
     else
     {
@@ -66,7 +77,7 @@ function auth(req,res,next)
   }
   else 
   {
-    if(req.signedCookies.user==='admin')
+    if(req.session.user==='admin')
     {
       next();
     }
