@@ -1,7 +1,6 @@
 const express=require('express');
 const bodyparser=require('body-parser');
 
-const mongoose=require('mongoose');
 const Promotion=require('../models/promotions');
 
 const promoRouter=express.Router();
